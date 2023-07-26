@@ -1,1 +1,26 @@
 services:
+
+  store:
+    image: mysql
+    container_name: store
+    environment: 
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - 3307:3306
+    volumes:
+      - /usr/app/lib/mysql
+      - ./images/database/init:/docker-entrypoint-initdb.d
+    healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 5s
+            retries: 10
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports : 
+     - 8080:80
+    environment:
+      PMA_HOST: store

@@ -162,3 +162,41 @@ app.put('/updateUser', async (request, response) => {
    }
     
 })
+
+/**DELETE endpoint, delete user from database
+ * 
+ * @param {object} userCredentials - user credentials
+ * @returns {string} - a message saying the user was deleted or an error message
+*/
+app.delete('/deleteUser', async (request, response) => {
+    //get user credentials from request body
+    if (request.body.email && request.body.password) {
+        try {
+            let userCredentials = {
+                email: request.body.email,
+                password: request.body.password
+            }
+            //get user from database
+            let user = await databaseService.getUser(userCredentials.email)
+            //check if user exists and if password is correct
+            if (user) {
+                if (user.password === userCredentials.password) {
+                    //delete user from database
+                    await databaseService.deleteUser(userCredentials.email)
+                    response.status(200).send("User succesfully deleted")
+                } else {
+                    response.status(400).send("incorrect credentials")
+                }
+            } else {
+                response.status(400).send("incorrect credentials")
+            }
+        } catch (error) {
+            //show error in console
+            console.log(error);
+            //send error message in response
+            response.status(400).send(error.message)
+        }
+    } else {
+        response.status(400).send('incorrect credentials')
+    }
+})

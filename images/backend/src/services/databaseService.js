@@ -79,6 +79,24 @@ class DatabaseService{
             throw error;
         }
     }
+
+    async deleteUser(userEmail){
+        try {
+            //delete user from database
+            await connection.promise().query(
+                'DELETE FROM users WHERE email = ?',[userEmail])
+            return "user succesfully deleted"
+
+        } catch(error) {
+            let errorMessage={
+                message: error.message,
+                errorCode: 400
+            }
+            //show error in console
+            console.log(errorMessage);
+            return errorMessage
+        }
+    }
 }
 
 export const databaseService = new DatabaseService()

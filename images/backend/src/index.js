@@ -5,7 +5,7 @@ import { databaseService } from "./services/databaseService.js"
 
 const app = express()
 app.use(cors())
-app.use(express.static('./app/docs'))
+app.use(express.static('./src/docs'))
 app.use(bodyParser.urlencoded({
     extended: true
 }))

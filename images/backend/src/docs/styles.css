@@ -1,0 +1,90 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #212121;
+    color: #fff;
+}
+
+.title {
+    padding: 20px;
+    background-color: #212121;
+    text-align: left;
+}
+
+h1 {
+    color: #64b5f6;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.endpoint-column {
+    flex: 1;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    padding: 20px 20px 2em 20px;
+    border-radius: 5px;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+.endpoint-box {
+    background-color: #424242;
+    padding: 20px;
+    border: 2px solid #212121; /* Add border color to match background */
+    border-radius: 5px;
+}
+
+.get-endpoint {
+    color: #64b5f6;
+}
+
+.post-endpoint {
+    color: #c5e1a5;
+}
+
+.put-endpoint {
+    color: #f48fb1;
+}
+
+.delete-endpoint {
+    color: #ef9a9a;
+}
+
+.property {
+    color: #fff;
+}
+
+.property-name {
+    color: #f48fb1;
+}
+
+.property-value {
+    color: #a5d6a7;
+}
+
+.strong {
+    color: #64b5f6;
+}
+
+.em {
+    font-style: italic;
+    color: #ccc;
+}
+
+.param {
+    color: #c5e1a5;
+}
+
+.return {
+    color: #ef9a9a;
+    padding-bottom: 2em;
+}
+

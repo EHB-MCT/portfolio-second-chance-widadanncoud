@@ -1,5 +1,19 @@
 services:
 
+  backend:
+    build: ./images/backend
+    container_name: backend
+    ports:
+      - 3000:3000
+    restart: always
+    environment:
+      MYSQL_HOST: store
+      MYSQL_USERNAME: ${MYSQL_USERNAME}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - ./images/backend/src:/usr/app/src
+
   store:
     image: mysql
     container_name: store

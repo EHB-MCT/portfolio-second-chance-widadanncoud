@@ -80,3 +80,39 @@ app.post('/createUser', async (request, response) => {
         
     }
 })
+
+
+/**POST endpoint, check user credentials 
+ * 
+ * @param {object} userCredentials  - user credentials
+ */
+app.post('/login', async (request, response) => {
+    //check if email and password are provided
+    if (request.body.email && request.body.password) {
+        try {
+            const userCredentials = {
+                email: request.body.email,
+                password: request.body.password
+            }
+            //get user from database
+            const user = await databaseService.getUser(userCredentials.email)
+            //check if user exists and if password is correct
+            if (user.length) {
+                if (user[0].password === userCredentials.password) {
+                    response.status(200).send("User succesfully logged in")
+                } else {
+                    response.status(400).send("incorrect credentials")
+                }
+            } else {
+                response.status(400).send("incorrect credentials")
+            }
+        } catch (error) {
+            //show error in console
+            console.log(error);
+            //send error message in response
+            response.status(400).send(error.message)
+        }
+    } else {
+        response.status(400).send('incorrect credentials')
+    }
+})

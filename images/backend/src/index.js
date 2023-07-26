@@ -55,7 +55,7 @@ app.post('/createUser', async (request, response) => {
         try {
             const existingUserResult = await databaseService.getUser(request.body.email)
             
-            if (existingUserResult.length) {
+            if (existingUserResult) {
                 response.status(400).send('User already exists')
 
             } else {
@@ -85,6 +85,7 @@ app.post('/createUser', async (request, response) => {
 /**POST endpoint, check user credentials 
  * 
  * @param {object} userCredentials  - user credentials
+ * @returns {string} - a message saying the user was logged in or an error message
  */
 app.post('/login', async (request, response) => {
     //check if email and password are provided
@@ -92,13 +93,15 @@ app.post('/login', async (request, response) => {
         try {
             const userCredentials = {
                 email: request.body.email,
-                password: request.body.password
+                password: request.body.password,
+                newEmail: request.body.newEmail | 0,
+                newPassword: request.body.newPassword | 0
             }
             //get user from database
             const user = await databaseService.getUser(userCredentials.email)
             //check if user exists and if password is correct
-            if (user.length) {
-                if (user[0].password === userCredentials.password) {
+            if (user) {
+                if (user.password === userCredentials.password) {
                     response.status(200).send("User succesfully logged in")
                 } else {
                     response.status(400).send("incorrect credentials")
@@ -115,4 +118,47 @@ app.post('/login', async (request, response) => {
     } else {
         response.status(400).send('incorrect credentials')
     }
+})
+
+/**PUT endpoint, update user credentials 
+ * 
+ * @param {object} updatedUser - updated user credentials
+ * @returns {string} - a message saying the user was updated or an error message
+*/
+app.put('/updateUser', async (request, response) => {
+   //get updated user credentials from request body
+   if (request.body.currentEmail && request.body.currentPassword) {
+    let updatedUser = {
+        currentEmail: request.body.currentEmail,
+        currentPassword: request.body.currentPassword,
+        newEmail: request.body.newEmail,
+        newPassword: request.body.newPassword
+    }
+
+    try {
+        let userCurrentCredentials = await databaseService.getUser(updatedUser.currentEmail)
+        //retrieve user from database
+        if (userCurrentCredentials) {
+            //check if current password is correct
+            if (userCurrentCredentials.password === updatedUser.currentPassword) {
+                //check if new email is not empty
+                databaseService.updateUser(updatedUser)
+                response.status(200).send("message: user succesfully updated")
+            } else{
+                
+                response.status(401).send("error: incorrect password")
+            }
+        } else{
+            response.status(404).send("error: incorrect credentials")
+        }
+    } catch (error) {
+        // Handle the error here
+        console.log(error);
+        //send error back
+        response.status(400).send(`error: ${error}` )
+    }
+   } else{
+         response.status(400).send("error: missing information")
+   }
+    
 })

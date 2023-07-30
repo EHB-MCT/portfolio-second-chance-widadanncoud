@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Do it Today: backend Endpoints</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="title">
+        <h1> Do it Today: backend Endpoints</h1>
+    </div>
+    <div class="row">
+        <div class="endpoint-column get-endpoint">
+            <h2>GET Endpoints</h2>
+            <div class="endpoint-box">
+                <ul>
+                    <li>
+                        <strong>GET /</strong><br>
+                        <em>Description:</em> Returns an HTML page listing all the endpoints.
+                    </li>
+                     <br>
+                    <br>
+                    <br>
+                </ul>
+            </div>
+        </div>
+        <div class="endpoint-column post-endpoint">
+            <h2>POST Endpoints</h2>
+            <div class="endpoint-box">
+                <ul>
+                    <li>
+                        <strong>POST /createUser</strong><br>
+                        <em>Description:</em> Creates a new user.<br>
+                        <em class="param">Parameters:</em>
+                        <pre><code class="property">
+{
+    <span class="property-name">firstName</span>: <span class="property-value">'John'</span>,
+    <span class="property-name">lastName</span>: <span class="property-value">'Doe'</span>,
+    <span class="property-name">email</span>: <span class="property-value">'john@example.com'</span>,
+    <span class="property-name">password</span>: <span class="property-value">'secretpassword'</span>
+}
+                        </code></pre>
+                        <em class="return">Returns:</em> A message saying the user was created or an error message.
+                    </li>
+                    <br>
+                    <br>
+                    <br>
+                    <li>
+                        <strong>POST /login</strong><br>
+                        <em>Description:</em> Logs in a user to the application.<br>
+                        <em class="param">Parameters:</em>
+                        <pre><code class="property">
+{
+    <span class="property-name">email</span>: <span class="property-value">'john@example.com'</span>,
+    <span class="property-name">password</span>: <span class="property-value">'secretpassword'</span>
+}
+                        </code></pre>
+                        <em class="return">Returns:</em> A message saying the user was logged in or an error message.
+                    </li>
+                     <br>
+                    <br>
+                    <br>
+                </ul>
+            </div>
+        </div>
+        <div class="endpoint-column put-endpoint">
+            <h2>PUT Endpoints</h2>
+            <div class="endpoint-box">
+                <ul>
+                    <li>
+                        <strong>PUT /updateUser</strong><br>
+                        <em>Description:</em> Updates user credentials.<br>
+                        <em class="param">Parameters:</em>
+                        <pre><code class="property">
+{
+    <span class="property-name">currentEmail</span>: <span class="property-value">'john@example.com'</span>,
+    <span class="property-name">newEmail</span>: <span class="property-value">'john.doe@example.com'</span>,
+    <span class="property-name">currentPassword</span>: <span class="property-value">'secretpassword'</span>,
+    <span class="property-name">newPassword</span>: <span class="property-value">'newsecretpassword'</span>
+}
+                        </code></pre>
+                        <em class="return">Returns:</em> A message saying the user was updated or an error message.
+                    </li>
+                     <br>
+                    <br>
+                    <br>
+                </ul>
+            </div>
+        </div>
+        <div class="endpoint-column delete-endpoint">
+            <h2>DELETE Endpoints</h2>
+            <div class="endpoint-box">
+                <ul>
+                    <li>
+                        <strong>DELETE /deleteUser</strong><br>
+                        <em>Description:</em> Deletes a user from the database.<br>
+                        <em class="param">Parameters:</em>
+                        <pre><code class="property">
+{
+    <span class="property-name">email</span>: <span class="property-value">'john@example.com'</span>,
+    <span class="property-name">password</span>: <span class="property-value">'secretpassword'</span>
+}
+                        </code></pre>
+                        <em class="return">Returns:</em> A message saying the user was deleted or an error message.
+                    </li>
+                     <br>
+                    <br>
+                    <br>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

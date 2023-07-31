@@ -12,8 +12,9 @@ function LoginPage() {
         event.preventDefault();
         if (email && password ) {
             const response = await backendService.checkCredentials(email, password);
-            if (response === "ok") {
+            if (response === "success") {
                 console.log(response);
+                window.location.assign("/");
             } else {
                 console.log(response);
             }
@@ -26,8 +27,8 @@ function LoginPage() {
         <form className={styles.loginForm} onSubmit={submitLogin}>
             <h1>Log In</h1>
             <div className={styles.inputContainer}>
-                <input type="email" placeholder="email" onBlur={(event) => setEmail(event.target.value)} required/>
-                <input type="password" name="" id="" placeholder="Password" onBlur={(event) => setpassword(event.target.value)} required/>
+                <input type="email" placeholder="email" onChange={(event) => setEmail(event.target.value)} required/>
+                <input type="password" name="" id="" placeholder="Password" onChange={(event) => setpassword(event.target.value)} required/>
             </div>
             <div className={styles.buttonContainer}>
                 <input type="submit" value="Log In"/>

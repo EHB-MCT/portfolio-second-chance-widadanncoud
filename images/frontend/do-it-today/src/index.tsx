@@ -9,6 +9,8 @@ import Root from './Root';
 import ErrorPage from './pages/error/errorPage';
 import LoginPage from './pages/login/loginPage';
 import HomePage from './pages/home/homePage';
+import RegisterPage from './pages/register/registerPage';
+import ProfilePage from './pages/profile/profilePage';
 
 const router = createBrowserRouter([
   {
@@ -23,7 +25,16 @@ const router = createBrowserRouter([
       {
         path: "/user/login",
         element: <LoginPage/>
+      },
+      {
+        path: "/user/register",
+        element: <RegisterPage/>
+      },
+      {
+        path: "/user/profile",
+        element: <ProfilePage/>
       }
+
     ]
   }
   

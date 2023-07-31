@@ -16,16 +16,19 @@ class BackendService {
             const data = await response.json();
 
             if (data.status === 200) {
-                sessionStorage.setItem('email', email);
-                sessionStorage.setItem('password', password);
-                return data.message;
+                // Store the email and password in localStorage
+                localStorage.setItem('email', email);
+                localStorage.setItem('password', password);
+                // Return message
+                return "success";
             } else {                
-                return data.error;
+                // Return error message
+                return data.message;
             }
         } catch (error) {
             // Handle any errors that occur during the fetch or JSON parsing process
             console.error("An error occurred:", error);
-            return "error";
+            return `error: ${error}`;
         }
     }
 }

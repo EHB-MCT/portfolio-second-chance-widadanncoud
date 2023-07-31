@@ -17,3 +17,11 @@
         - register endpoint
         - update user endpoint
         - delete user endpoint
+
+## [0.0.3] - 31-07-2023µ
+
+### fixed
+
+    - response endpoints so that would send a json response
+
+    

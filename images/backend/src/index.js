@@ -56,7 +56,9 @@ app.post('/createUser', async (request, response) => {
             const existingUserResult = await databaseService.getUser(request.body.email)
             
             if (existingUserResult) {
-                response.status(400).send('User already exists')
+                response.status(400).send({
+                    status: 400,
+                    error:'User already exists'})
 
             } else {
                 const newUser = {
@@ -66,17 +68,24 @@ app.post('/createUser', async (request, response) => {
                     password: request.body.password
                 }
                 await databaseService.addUser(newUser)
-                response.status(200).send("User succesfully created")
+                response.status(200).send({
+                    status: 200,
+                    message:"User succesfully created"})
             }
         } catch (error) {
             //show error in console
             console.log(error);
             //send error message to frontend
-            response.status(400).send(error.message)
+            response.status(400).send({
+                status: 400,
+                error: error.message
+            })
         }
     } else {
         //return error message if missing information
-        response.status(400).send('Missing information')
+        response.status(400).send({
+            status: 400,
+            message:'Missing information'})
         
     }
 })
@@ -102,21 +111,31 @@ app.post('/login', async (request, response) => {
             //check if user exists and if password is correct
             if (user) {
                 if (user.password === userCredentials.password) {
-                    response.status(200).send("User succesfully logged in")
+                    response.status(200).send({
+                        status: 200,
+                        message:"User succesfully logged in"})
                 } else {
-                    response.status(400).send("incorrect credentials")
+                    response.status(400).send({
+                        status: 400,
+                        message:"incorrect credentials"})
                 }
             } else {
-                response.status(400).send("incorrect credentials")
+                response.status(400).send({
+                    status: 400,
+                    message:"incorrect credentials"})
             }
         } catch (error) {
             //show error in console
             console.log(error);
             //send error message in response
-            response.status(400).send(error.message)
+            response.status(400).send({
+                status: 400,
+                message:error.message})
         }
     } else {
-        response.status(400).send('incorrect credentials')
+        response.status(400).send({
+            status: 400,
+            message:'incorrect credentials'})
     }
 })
 
@@ -143,22 +162,32 @@ app.put('/updateUser', async (request, response) => {
             if (userCurrentCredentials.password === updatedUser.currentPassword) {
                 //check if new email is not empty
                 databaseService.updateUser(updatedUser)
-                response.status(200).send("message: user succesfully updated")
+                response.status(200).send({
+                    status: 400,
+                    message: "user succesfully updated"})
             } else{
                 
-                response.status(401).send("error: incorrect password")
+                response.status(401).send({
+                    status: 401,
+                    message: "incorrect password"})
             }
         } else{
-            response.status(404).send("error: incorrect credentials")
+            response.status(404).send({
+                status: 404,
+                message: "incorrect credentials"})
         }
     } catch (error) {
         // Handle the error here
         console.log(error);
         //send error back
-        response.status(400).send(`error: ${error}` )
+        response.status(400).send({
+            status: 400,
+            message : error} )
     }
    } else{
-         response.status(400).send("error: missing information")
+         response.status(400).send({
+            status: 400,
+            error: "missing information"})
    }
     
 })
@@ -183,12 +212,18 @@ app.delete('/deleteUser', async (request, response) => {
                 if (user.password === userCredentials.password) {
                     //delete user from database
                     await databaseService.deleteUser(userCredentials.email)
-                    response.status(200).send("User succesfully deleted")
+                    response.status(200).send({
+                        status: 200,
+                        message:"User succesfully deleted"})
                 } else {
-                    response.status(400).send("incorrect credentials")
-                }
+                    response.status(404).send({
+                        status: 404,
+                        message: "incorrect credentials"})
+                        }
             } else {
-                response.status(400).send("incorrect credentials")
+                response.status(404).send({
+                        status: 404,
+                        message: "incorrect credentials"})
             }
         } catch (error) {
             //show error in console
@@ -197,6 +232,8 @@ app.delete('/deleteUser', async (request, response) => {
             response.status(400).send(error.message)
         }
     } else {
-        response.status(400).send('incorrect credentials')
-    }
+        response.status(404).send({
+                        status: 404,
+                        message: "incorrect credentials"})
+    }   
 })

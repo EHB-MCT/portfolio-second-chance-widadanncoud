@@ -1,16 +1,22 @@
 import { Link } from "react-router-dom";
 import styles from "./loginPage.module.css"  
 import { useState } from "react";
+import {backendService} from "../../services/backendService";
+
 
 function LoginPage() {
     const [email, setEmail] = useState<string|undefined>(undefined);
     const [password, setpassword] = useState<string|undefined>(undefined);
 
-    const submitLogin = (event:React.FormEvent) => {
+    const submitLogin = async (event:React.FormEvent) => {
         event.preventDefault();
         if (email && password ) {
-            //TO DO: send login request to server
-            console.log("executing login request");
+            const response = await backendService.checkCredentials(email, password);
+            if (response === "ok") {
+                console.log(response);
+            } else {
+                console.log(response);
+            }
         }
     }
 

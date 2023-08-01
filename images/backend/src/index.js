@@ -83,8 +83,8 @@ app.post('/createUser', async (request, response) => {
         }
     } else {
         //return error message if missing information
-        response.status(400).send({
-            status: 400,
+        response.status(404).send({
+            status: 404,
             message:'Missing information'})
         
     }
@@ -115,13 +115,13 @@ app.post('/login', async (request, response) => {
                         status: 200,
                         message:"User succesfully logged in"})
                 } else {
-                    response.status(400).send({
-                        status: 400,
+                    response.status(404).send({
+                        status: 404,
                         message:"incorrect credentials"})
                 }
             } else {
-                response.status(400).send({
-                    status: 400,
+                response.status(404).send({
+                    status: 404,
                     message:"incorrect credentials"})
             }
         } catch (error) {
@@ -133,8 +133,8 @@ app.post('/login', async (request, response) => {
                 message:error.message})
         }
     } else {
-        response.status(400).send({
-            status: 400,
+        response.status(404).send({
+            status: 404,
             message:'incorrect credentials'})
     }
 })
@@ -163,7 +163,7 @@ app.put('/updateUser', async (request, response) => {
                 //check if new email is not empty
                 databaseService.updateUser(updatedUser)
                 response.status(200).send({
-                    status: 400,
+                    status: 200,
                     message: "user succesfully updated"})
             } else{
                 
@@ -237,3 +237,5 @@ app.delete('/deleteUser', async (request, response) => {
                         message: "incorrect credentials"})
     }   
 })
+
+module.exports = app;

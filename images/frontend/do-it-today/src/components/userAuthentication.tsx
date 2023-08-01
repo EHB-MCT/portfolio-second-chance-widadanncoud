@@ -7,7 +7,6 @@ function UserAuthentication() {
     
     
     useEffect(() => {
-        console.log(location);
         //retrieve email and password from local storage
         const email = localStorage.getItem("email");
         const password = localStorage.getItem("password");

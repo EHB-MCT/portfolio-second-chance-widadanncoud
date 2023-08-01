@@ -58,7 +58,7 @@ app.post('/createUser', async (request, response) => {
             if (existingUserResult) {
                 response.status(400).send({
                     status: 400,
-                    error:'User already exists'})
+                    message:'User already exists'})
 
             } else {
                 const newUser = {
@@ -78,7 +78,7 @@ app.post('/createUser', async (request, response) => {
             //send error message to frontend
             response.status(400).send({
                 status: 400,
-                error: error.message
+                message: error.message
             })
         }
     } else {
@@ -187,7 +187,7 @@ app.put('/updateUser', async (request, response) => {
    } else{
          response.status(400).send({
             status: 400,
-            error: "missing information"})
+            message: "missing information"})
    }
     
 })

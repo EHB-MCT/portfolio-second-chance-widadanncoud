@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import styles from './registerPage.module.css';
 import { useState } from 'react';
+import { backendService } from '../../services/backendService';
 
 function RegisterPage() {
     const [email, setEmail] = useState<string|undefined>(undefined);
@@ -10,6 +11,17 @@ function RegisterPage() {
 
     const submitNewAccount = async (event:React.FormEvent) => {
         event.preventDefault();
+        if (email && password && firstName && lastName) {
+            const response = await backendService.createAccount(email, password, firstName, lastName)
+            if (response === "success") {
+                console.log(response);
+                window.location.assign("/");
+            } else {
+                console.log(response);
+            }
+            
+          
+        }
     }
 
     return ( 

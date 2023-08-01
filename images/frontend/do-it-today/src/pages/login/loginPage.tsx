@@ -32,7 +32,7 @@ function LoginPage() {
             </div>
             <div className={styles.buttonContainer}>
                 <input type="submit" value="Log In"/>
-                <span>Don't have an account yet? <Link to={"#"}>Sign up now!</Link></span>
+                <span>Don't have an account yet?  <Link className={styles.link} to={"/user/register"}>Sign up now!</Link></span>
             </div>
         </form>
     </div>

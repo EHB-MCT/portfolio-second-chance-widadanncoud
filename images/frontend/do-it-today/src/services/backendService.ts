@@ -3,6 +3,7 @@ class BackendService {
 
     async checkCredentials(email: string, password: string): Promise<string> {
         try {
+            // Make a request to the backend to check the credentials
             const response = await fetch(`${this.url}/login`, {
                 method: 'POST',
                 headers: {
@@ -35,6 +36,7 @@ class BackendService {
 
     async createAccount(email: string, password: string, firstName:string, lastName:string): Promise<string> {
         try {
+            // send new user data to backend to be proccesed
             const response = await fetch(`${this.url}/createUser`, {
                 method: 'POST',
                 headers: {

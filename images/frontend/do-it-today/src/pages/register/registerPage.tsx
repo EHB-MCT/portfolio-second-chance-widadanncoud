@@ -10,12 +10,17 @@ function RegisterPage() {
     const [lastName, setLastName] = useState<string|undefined>(undefined);
 
     const submitNewAccount = async (event:React.FormEvent) => {
+        // prevent the default behaviour of the form to refresh the page
         event.preventDefault();
+        // check if the email and password are defined
         if (email && password && firstName && lastName) {
+            // call the backend service to try create new user
             const response = await backendService.createAccount(email, password, firstName, lastName)
+            // if the response is success, redirect to the home page
             if (response === "success") {
                 console.log(response);
                 window.location.assign("/");
+            // if the response is not success, log the error
             } else {
                 console.log(response);
             }

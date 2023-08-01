@@ -9,12 +9,17 @@ function LoginPage() {
     const [password, setpassword] = useState<string|undefined>(undefined);
 
     const submitLogin = async (event:React.FormEvent) => {
+        // prevent the default behaviour of the form to refresh the page
         event.preventDefault();
+        // check if the email and password are defined
         if (email && password ) {
+            // call the backend service to check the credentials
             const response = await backendService.checkCredentials(email, password);
+            // if the response is success, redirect to the home page
             if (response === "success") {
                 console.log(response);
                 window.location.assign("/");
+            // if the response is not success, log the error
             } else {
                 console.log(response);
             }

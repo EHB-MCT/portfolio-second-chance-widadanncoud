@@ -24,4 +24,8 @@
 
     - response endpoints so that would send a json response
 
-    
+## [0.0.4] - 02-08-2023
+
+### Added
+
+    - added tasks table to database

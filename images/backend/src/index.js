@@ -320,25 +320,88 @@ app.delete('/deleteUser', async (request, response) => {
     }
 })
 
-
-app.post('/getTasks', async (request, response) => {
+/**POST endpoint, create new task 
+ * 
+ * @param {object} userCredentials, newTask - user credentials and new task
+*/
+app.post('/createTask', async (request, response) => {
+    //check if email and password are provided
     if (request.body.email && request.body.password) {
         try {
+            //get user from database
             const result = await databaseService.getUser(request.body.email)
+            //check if user exists and if password is correct
             if (result) {
+                //check if user exists and if password is correct
                 if (result.password === request.body.password) {
-                    const tasks = await databaseService.getTasks(result.id)
+                    //create new task
+                    await databaseService.createTask(result.id, request.body.newTask)
                     response.status(200).send({
                         status: 200,
-                        tasks: tasks
+                        message: "task succesfully created"
                     })
                 } else {
+                    //return error message if password is incorrect
                     response.status(401).send({
                         status: 401,
                         message: "incorrect credentials"
                     })
                 }
             } else {
+                //return error message if user does not exist
+                response.status(401).send({
+                    status: 401,
+                    message: "incorrect credentials"
+                })
+            }
+        } catch (error) {
+            //show error in console
+            console.log(error);
+            //send error message in response
+            response.status(400).send(error.message)
+        }
+        
+            
+    } else {
+        response.status(401).send({
+            status: 401,
+            message: "incorrect credentials"
+        })
+    }
+})
+
+
+
+/**POST endpoint, get user tasks from database
+ * 
+ * @param {object} userCredentials - user credentials
+ * @returns {object} - user tasks
+*/
+app.post('/getTasks', async (request, response) => {
+    //check if email and password are provided
+    if (request.body.email && request.body.password) {
+        try {
+            //get user from database
+            const result = await databaseService.getUser(request.body.email)
+            //check if user exists and if password is correct
+            if (result) {
+                //check if user exists and if password is correct
+                if (result.password === request.body.password) {
+                    //get tasks from database
+                    const tasks = await databaseService.getTasks(result.id)
+                    response.status(200).send({
+                        status: 200,
+                        tasks: tasks
+                    })
+                } else {
+                    //return error message if password is incorrect
+                    response.status(401).send({
+                        status: 401,
+                        message: "incorrect credentials"
+                    })
+                }
+            } else {
+                //return error message if user does not exist
                 response.status(401).send({
                     status: 401,
                     message: "incorrect credentials"

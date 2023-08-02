@@ -98,10 +98,29 @@ class DatabaseService{
         }
     }
 
+    async createTask(userId, newTask){
+        try {
+            //add task to database
+            await connection.promise().query(
+                'INSERT INTO tasks (user_id, task) values (?,?)',
+                [userId, newTask])
+            return "task succesfully created"
+
+        } catch (error) {
+            let errorMessage={
+                    message: error.message,
+                    errorCode: 400
+                }
+                //show error in console
+                console.log(errorMessage);
+                //return error message
+                return errorMessage
+        }
+    }
+
 
     async getTasks(userId){
         try {
-            console.log(userId);
             //get all tasks from database
             return await connection.promise().query(
                 'SELECT * FROM tasks WHERE user_id like ?',[userId])

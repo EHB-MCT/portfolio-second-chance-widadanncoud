@@ -264,6 +264,8 @@ app.put('/updateUser', async (request, response) => {
 
 })
 
+
+
 /**DELETE endpoint, delete user from database
  * 
  * @param {object} userCredentials - user credentials
@@ -310,6 +312,46 @@ app.delete('/deleteUser', async (request, response) => {
             //send error message in response
             response.status(400).send(error.message)
         }
+    } else {
+        response.status(401).send({
+            status: 401,
+            message: "incorrect credentials"
+        })
+    }
+})
+
+
+app.post('/getTasks', async (request, response) => {
+    if (request.body.email && request.body.password) {
+        try {
+            const result = await databaseService.getUser(request.body.email)
+            if (result) {
+                if (result.password === request.body.password) {
+                    const tasks = await databaseService.getTasks(result.id)
+                    response.status(200).send({
+                        status: 200,
+                        tasks: tasks
+                    })
+                } else {
+                    response.status(401).send({
+                        status: 401,
+                        message: "incorrect credentials"
+                    })
+                }
+            } else {
+                response.status(401).send({
+                    status: 401,
+                    message: "incorrect credentials"
+                })
+            }
+        } catch (error) {
+            //show error in console
+            console.log(error);
+            //send error message in response
+            response.status(400).send(error.message)
+        }
+        
+            
     } else {
         response.status(401).send({
             status: 401,

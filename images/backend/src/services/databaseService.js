@@ -97,6 +97,26 @@ class DatabaseService{
             return errorMessage
         }
     }
+
+
+    async getTasks(userId){
+        try {
+            console.log(userId);
+            //get all tasks from database
+            return await connection.promise().query(
+                'SELECT * FROM tasks WHERE user_id like ?',[userId])
+                .then(([rows,fields]) => rows)
+            
+        } catch(error) {
+            let errorMessage={
+                message: error.message,
+                errorCode: 400
+            }
+            //show error in console
+            console.log(errorMessage);
+            return errorMessage
+        }
+    }
 }
 
 export const databaseService = new DatabaseService()

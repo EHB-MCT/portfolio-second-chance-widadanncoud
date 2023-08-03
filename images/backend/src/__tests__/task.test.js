@@ -133,13 +133,13 @@ describe('PUT endpoint "/updateTask"', () => {
     it('should update an existing task for the user', async () => {
         const userEmail = 'john.doe@example.com';
         const userPassword = 'password123';
-        const taskIdToUpdate = '1'; 
-        const updatedTask = 'Updated task description'
+        const currentTask= 'Buy fruits and vegetables for the week'
+        const newTask = 'Updated task description'
 
         // Make a request to the endpoint
         const response = await request(app)
-            .put(`/updateTask/${taskIdToUpdate}`)
-            .send({ email: userEmail, password: userPassword, updatedTask });
+            .put(`/updateTask`)
+            .send({ email: userEmail, password: userPassword, currentTask, newTask });
 
         // Expectations
         expect(response.status).toBe(200);
@@ -150,13 +150,13 @@ describe('PUT endpoint "/updateTask"', () => {
     it('should return a status code of 401 if the user does not exist', async () => {
         const userEmail = 'fake@example.com';
         const userPassword = 'password123';
-        const taskIdToUpdate = '1';
-        const updatedTask = 'Updated task description'
+        const currentTask = 'Updated task description'
+        const newTask = 'Buy fruits and vegetables for the week'
 
         // Make a request to the endpoint
         const response = await request(app)
-            .put(`/updateTask/${taskIdToUpdate}`)
-            .send({ email: userEmail, password: userPassword, updatedTask });
+            .put(`/updateTask`)
+            .send({ email: userEmail, password: userPassword, currentTask, newTask });
 
         // Expectations
         expect(response.status).toBe(401);
@@ -166,26 +166,32 @@ describe('PUT endpoint "/updateTask"', () => {
     it('should return a status code of 401 if the password is incorrect', async () => {
         const userEmail = 'john.doe@example.com';
         const userPassword = 'wrongpassword';
-        const taskIdToUpdate = '1';
-        const updatedTask = 'Updated task description'
+        const currentTask = 'Buy fruits and vegetables for the week'
+        const newTask = 'Updated task description'
 
         // Make a request to the endpoint
         const response = await request(app)
-            .put(`/updateTask/${taskIdToUpdate}`)
-            .send({ email: userEmail, password: userPassword, updatedTask });
+            .put(`/updateTask`)
+            .send({ email: userEmail, password: userPassword, currentTask, newTask });
+
 
         // Expectations
         expect(response.status).toBe(401);
         expect(response.body.status).toBe(401);
     })
 
-    it('should return a status code of 401 if email or password are missing', async () => {
+    it('should return a status code of 400 if email or password are missing', async () => {
+        const newTask = 'Buy fruits and vegetables for the week'
+        const currentTask = 'Updated task description'
+
         // Make a request to the endpoint without providing the email and password parameters
-        const response = await request(app).put('/updateTask/1');
+        const response = await request(app)
+            .put('/updateTask')
+            .send({ currentTask, newTask });
 
         // Expectations
-        expect(response.status).toBe(401);
-        expect(response.body.status).toBe(401);
+        expect(response.status).toBe(400);
+        expect(response.body.status).toBe(400);
     })
 
 });

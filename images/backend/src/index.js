@@ -36,6 +36,10 @@ app.listen(port, () => {
  *      @property {string} newEmail - new email of user
  *      @property {string} currentPassword - old password of user
  *      @property {string} newPassword - new password of user
+ * 
+ * @typedef {object} updatedTask
+ *      @property {string} currentTask - old task of user
+ *      @property {string} newTask - new task of user
  */
 
 /**GET endpoint, html page with all endpoints 
@@ -156,7 +160,7 @@ app.post('/login', async (request, response) => {
 /** POST endpoint, get user data based on email
  * 
  * @param {object} userCredentials - user email and password
- * @returns {object} user - user data
+ * @returns {object} User - user data
  */
 app.post('/getUserData', async (request, response) => {
     //check if email and password are provided
@@ -326,7 +330,7 @@ app.delete('/deleteUser', async (request, response) => {
 */
 app.post('/createTask', async (request, response) => {
     //check if email and password are provided
-    if (request.body.email && request.body.password) {
+    if (request.body.email && request.body.password && request.body.newTask) {
         try {
             //get user from database
             const result = await databaseService.getUser(request.body.email)
@@ -351,7 +355,7 @@ app.post('/createTask', async (request, response) => {
                 //return error message if user does not exist
                 response.status(401).send({
                     status: 401,
-                    message: "incorrect credentials"
+                    message: "missing details"
                 })
             }
         } catch (error) {
@@ -418,7 +422,66 @@ app.post('/getTasks', async (request, response) => {
     } else {
         response.status(401).send({
             status: 401,
-            message: "incorrect credentials"
+            message: "missing information"
+        })
+    }
+})
+
+
+/**PUT endpoint, update task
+ * 
+ * @param {object} userCredentials, updatedTask - user credentials and updated task
+ * @returns {string} - a message saying the task was updated or an error message
+*/
+app.put('/updateTask', async (request, response) => {
+    //check if email,password, currentTask and newTask are provided
+    if (request.body.email && request.body.password && request.body.currentTask && request.body.newTask) {
+        try {
+
+            //get user from database
+            const result = await databaseService.getUser(request.body.email)
+
+            //check if user exists and if password is correct
+            if (result) {
+                //check if user exists and if password is correct
+                if (result.password === request.body.password) {
+
+                    const updatedTask = {
+                        currentTask: request.body.currentTask,
+                        newTask: request.body.newTask
+                    }
+
+                    //update task in database
+                    await databaseService.updateTask(updatedTask)
+                    response.status(200).send({
+                        status: 200,
+                        message: "task succesfully updated"
+                    })
+                } else {
+                    //return error message if password is incorrect
+                    response.status(401).send({
+                        status: 401,
+                        message: "incorrect credentials"
+                    })
+                }
+
+            } else{
+                //return error message if user does not exist
+                response.status(401).send({
+                    status: 401,
+                    message: "incorrect credentials"
+                })
+            }
+        } catch (error) {
+            //show error in console
+            console.log(error);
+            //send error message in response
+            response.status(400).send(error.message)
+        }
+    } else {
+        response.status(400).send({
+            status: 400,
+            message: "missing information"
         })
     }
 })

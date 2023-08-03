@@ -15,6 +15,14 @@ const connection = mysql.createConnection({
  *      @property {string} lastName - last name of the user
  *      @property {string} email - email of the user
  *      @property {string} password - password of the user
+ * 
+ * @typedef {object} userCredentials
+ *      @property {string} email - email of the user
+ *      @property {string} password - password of the user
+ * 
+ * @typedef {object} updatedTask
+ *      @property {string} currentTask - old task of user
+ *      @property {string} newTask - new task of user
 */
 
 class DatabaseService{
@@ -73,10 +81,13 @@ class DatabaseService{
 
         } catch (error) {
 
-            // Handle the error here
-            console.error('Error occurred while executing the query:', error);
-            // You can return an error object or throw an error if needed
-            throw error;
+            let errorMessage = {
+                message: error.message,
+                errorCode: 400
+            }
+            //show error in console
+            console.log(errorMessage);
+            throw errorMessage
         }
     }
 
@@ -102,7 +113,7 @@ class DatabaseService{
         try {
             //add task to database
             await connection.promise().query(
-                'INSERT INTO tasks (user_id, task) values (?,?)',
+                'INSERT INTO tasks (user_id, description) values (?,?)',
                 [userId, newTask])
             return "task succesfully created"
 
@@ -133,8 +144,27 @@ class DatabaseService{
             }
             //show error in console
             console.log(errorMessage);
-            return errorMessage
+            throw errorMessage
         }
+    }
+
+    async updateTask(updatedTask) {
+        try {
+            // update task in database
+            await connection.promise().query("UPDATE tasks SET description = ? WHERE description = ?", [updatedTask.newTask, updatedTask.currentTask])
+            return "task succesfully updated"
+
+        } catch (error) {
+
+            let errorMessage = {
+                message: error.message,
+                errorCode: 400
+            }
+            //show error in console
+            console.log(errorMessage);
+            throw errorMessage
+        }
+
     }
 }
 

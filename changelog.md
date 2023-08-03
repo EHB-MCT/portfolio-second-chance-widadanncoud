@@ -24,4 +24,23 @@
 
     - response endpoints so that would send a json response
 
-    
+## [0.0.4] - 02-08-2023
+
+### Added
+
+    - added tasks table to database
+
+## [0.0.5] - 03-08-2023
+
+### Added
+
+    - added tests for users endpoints
+
+    - added tests for tasks endpoints
+
+    - added crud for tasks
+        - get tasks endpoint
+        - create task endpoint
+        - update task endpoint
+        - delete task endpoint
+

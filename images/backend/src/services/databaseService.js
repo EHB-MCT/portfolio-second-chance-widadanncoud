@@ -15,6 +15,14 @@ const connection = mysql.createConnection({
  *      @property {string} lastName - last name of the user
  *      @property {string} email - email of the user
  *      @property {string} password - password of the user
+ * 
+ * @typedef {object} userCredentials
+ *      @property {string} email - email of the user
+ *      @property {string} password - password of the user
+ * 
+ * @typedef {object} updatedTask
+ *      @property {string} currentTask - old task of user
+ *      @property {string} newTask - new task of user
 */
 
 class DatabaseService{
@@ -73,10 +81,13 @@ class DatabaseService{
 
         } catch (error) {
 
-            // Handle the error here
-            console.error('Error occurred while executing the query:', error);
-            // You can return an error object or throw an error if needed
-            throw error;
+            let errorMessage = {
+                message: error.message,
+                errorCode: 400
+            }
+            //show error in console
+            console.log(errorMessage);
+            throw errorMessage
         }
     }
 
@@ -86,6 +97,82 @@ class DatabaseService{
             await connection.promise().query(
                 'DELETE FROM users WHERE email = ?',[userEmail])
             return "user succesfully deleted"
+
+        } catch(error) {
+            let errorMessage={
+                message: error.message,
+                errorCode: 400
+            }
+            //show error in console
+            console.log(errorMessage);
+            return errorMessage
+        }
+    }
+
+    async createTask(userId, newTask){
+        try {
+            //add task to database
+            await connection.promise().query(
+                'INSERT INTO tasks (user_id, description) values (?,?)',
+                [userId, newTask])
+            return "task succesfully created"
+
+        } catch (error) {
+            let errorMessage={
+                    message: error.message,
+                    errorCode: 400
+                }
+                //show error in console
+                console.log(errorMessage);
+                //return error message
+                return errorMessage
+        }
+    }
+
+
+    async getTasks(userId){
+        try {
+            //get all tasks from database
+            return await connection.promise().query(
+                'SELECT * FROM tasks WHERE user_id like ?',[userId])
+                .then(([rows,fields]) => rows)
+            
+        } catch(error) {
+            let errorMessage={
+                message: error.message,
+                errorCode: 400
+            }
+            //show error in console
+            console.log(errorMessage);
+            throw errorMessage
+        }
+    }
+
+    async updateTask(updatedTask) {
+        try {
+            // update task in database
+            await connection.promise().query("UPDATE tasks SET description = ? WHERE description = ?", [updatedTask.newTask, updatedTask.currentTask])
+            return "task succesfully updated"
+
+        } catch (error) {
+
+            let errorMessage = {
+                message: error.message,
+                errorCode: 400
+            }
+            //show error in console
+            console.log(errorMessage);
+            throw errorMessage
+        }
+
+    }
+
+    async deleteTask(userID, taskDescription){
+        try {
+            //delete task from database
+            await connection.promise().query(
+                'DELETE FROM tasks WHERE user_id = ? AND description = ?', [userID, taskDescription])
+            return "task succesfully deleted"
 
         } catch(error) {
             let errorMessage={

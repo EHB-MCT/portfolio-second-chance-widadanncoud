@@ -485,3 +485,53 @@ app.put('/updateTask', async (request, response) => {
         })
     }
 })
+
+
+/**DELETE endpoint, delete task from database
+ * 
+ * @param {object} userCredentials, task - user credentials and task
+ * @returns {string} - a message saying the task was deleted or an error message
+*/
+app.delete('/deleteTask', async (request, response) => {
+    //check if email,password and task are provided
+    if (request.body.email && request.body.password && request.body.task) {
+        try {
+            //get user from database
+            const result = await databaseService.getUser(request.body.email)
+            //check if user exists and if password is correct
+            if (result) {
+                //check if user exists and if password is correct
+                if (result.password === request.body.password) {
+                    //delete task from database
+                    await databaseService.deleteTask(result.id,request.body.task)
+                    response.status(200).send({
+                        status: 200,
+                        message: "task succesfully deleted"
+                    })
+                } else {
+                    //return error message if password is incorrect
+                    response.status(401).send({
+                        status: 401,
+                        message: "incorrect credentials"
+                    })
+                }
+            } else {
+                //return error message if user does not exist
+                response.status(401).send({
+                    status: 401,
+                    message: "incorrect credentials"
+                })
+            }
+        } catch (error) {
+            //show error in console
+            console.log(error);
+            //send error message in response
+            response.status(400).send(error.message)
+        }
+    } else {
+        response.status(400).send({
+            status: 400,
+            message: "missing information"
+        })
+    }
+})

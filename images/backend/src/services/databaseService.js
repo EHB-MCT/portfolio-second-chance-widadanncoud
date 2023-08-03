@@ -166,6 +166,24 @@ class DatabaseService{
         }
 
     }
+
+    async deleteTask(userID, taskDescription){
+        try {
+            //delete task from database
+            await connection.promise().query(
+                'DELETE FROM tasks WHERE user_id = ? AND description = ?', [userID, taskDescription])
+            return "task succesfully deleted"
+
+        } catch(error) {
+            let errorMessage={
+                message: error.message,
+                errorCode: 400
+            }
+            //show error in console
+            console.log(errorMessage);
+            return errorMessage
+        }
+    }
 }
 
 export const databaseService = new DatabaseService()

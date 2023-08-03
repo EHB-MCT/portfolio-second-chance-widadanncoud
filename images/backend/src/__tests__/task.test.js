@@ -200,12 +200,12 @@ describe('DELETE endpoint "/deleteTask"', () => {
     it('should delete an existing task for the user', async () => {
         const userEmail = 'john.doe@example.com';
         const userPassword = 'password123';
-        const taskIdToDelete = '1'; // Replace with the ID of the task to delete
+        const task = 'Buy fruits and vegetables for the week'; // Replace with the ID of the task to delete
 
         // Make a request to the endpoint
         const response = await request(app)
-            .delete(`/deleteTask/${taskIdToDelete}`)
-            .send({ email: userEmail, password: userPassword });
+            .delete(`/deleteTask`)
+            .send({ email: userEmail, password: userPassword, task });
 
         // Expectations
         expect(response.status).toBe(200);
@@ -215,12 +215,13 @@ describe('DELETE endpoint "/deleteTask"', () => {
     it('should return a status code of 401 if the user does not exist', async () => {
         const userEmail = 'fake@example.com';
         const userPassword = 'password123';
-        const taskIdToDelete = '1'; 
+        const task = 'Buy fruits and vegetables for the week'; 
 
         // Make a request to the endpoint
         const response = await request(app)
-            .delete(`/deleteTask/${taskIdToDelete}`)
-            .send({ email: userEmail, password: userPassword });
+            .delete(`/deleteTask`)
+            .send({ email: userEmail, password: userPassword, task });
+
 
         // Expectations
         expect(response.status).toBe(401);

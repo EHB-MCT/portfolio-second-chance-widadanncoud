@@ -67,7 +67,31 @@ class BackendService {
             return `error: ${error}`;
         }
     }
-}
 
+    async getUserData(email: string, password: string) {
+        try {
+            // Make a request to the backend to check the credentials
+            const response = await fetch(`${this.url}/getUserData`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password 
+                })
+            }).then(response => response.json());
+
+            if (response.status === 200) {
+                // Return message
+                return response.userData;
+            } 
+        
+        }catch (error) {
+            // Handle any errors that occur during the fetch or JSON parsing process
+            console.error("An error occurred:", error);
+    }
+    }
+}
 export const backendService = new BackendService();
 

@@ -1,11 +1,11 @@
 import {Outlet} from "react-router-dom"
-import UserAuthentication from "./components/userAuthentication";
+import Navbar from "./components/navbar";
 
 function Root() {
 
     return ( 
         <div>
-            <UserAuthentication/>
+            <Navbar/>
             <Outlet/> 
         </div>
      );

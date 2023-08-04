@@ -1,9 +1,12 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { backendService } from "../services/backendService";
+import styles from "./navBar.module.css";
 
-function UserAuthentication() {
+function Navbar() {
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const location = useLocation().pathname;
+    
     
     
     useEffect(() => {
@@ -26,14 +29,33 @@ function UserAuthentication() {
                         localStorage.removeItem("email");
                         localStorage.removeItem("password");
                         window.location.assign("/user/login");
-                    } 
+                    } else{
+                        setIsLoggedIn(true);
+                    }
                 })
             
         }
     }, [location]);
     
     
-    return <></>
+    return(
+        <div className={styles.navbar}>
+            
+            {isLoggedIn ? (
+                <>
+            <Link to="/" className={styles.logo}>
+                <img src="/images/logo.png" alt="Do it Today" />
+            </Link>
+            
+            <div className={styles.navLinks}>
+                <Link to="/user/profile" >Profile</Link>
+                <Link to="/user/logout">Logout</Link>
+            </div>
+            </>) : (<>
+                <img src="/images/logo.png" alt="Do it Today"  className={styles.logo}/>
+            </>)}
+        </div>
+    )
 }
 
-export default UserAuthentication;
+export default Navbar;

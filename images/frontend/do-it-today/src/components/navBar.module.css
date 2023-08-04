@@ -1,0 +1,22 @@
+.navbar{
+    min-width: 92vw;
+    height: 20vh;
+    padding: 0 4vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navLinks *{
+    padding: 0.5em 1.0em;
+    margin: .5em;
+    border: 2px solid black;
+    border-radius: 25px;
+    text-decoration: none;
+    color: black;
+}
+
+.navLinks *:hover{
+    background-color: black;
+    color: white;
+}

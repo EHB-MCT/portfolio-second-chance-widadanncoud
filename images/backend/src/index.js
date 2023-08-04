@@ -42,6 +42,7 @@ app.listen(port, () => {
  *      @property {string} newTask - new task of user
  */
 
+
 /**GET endpoint, html page with all endpoints 
  * 
  * @returns {html} html page with all endpoints
@@ -68,7 +69,7 @@ app.post('/createUser', async (request, response) => {
                     status: 400,
                     message: 'User already exists'
                 })
-
+                    
             } else {
                 const newUser = {
                     firstName: request.body.firstName,

@@ -17,10 +17,15 @@ function ProfilePage() {
         const email = localStorage.getItem("email") 
         const password = localStorage.getItem("password")
         await backendService.getUserData(email!, password!).then(response => {
-            setFirstName(response.data.firstName)
-            setLastName(response.data.lastName)
-            setEmail(response.data.email)
-            setPassword(response.data.password)
+            
+            if(response){
+                setFirstName(response.firstName)
+                setLastName(response.lastName)
+                setEmail(response.email)
+                setPassword(response.password)
+            } else {
+                console.log("No user data")
+            }
         })      
     }
 

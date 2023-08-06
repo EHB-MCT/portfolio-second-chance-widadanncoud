@@ -1,7 +1,11 @@
+import { IUser } from "../types/IUser";
+
 class BackendService {
-    url = 'http://localhost:3000';
+    url = process.env.BACKEND || 'http://localhost:3000';
 
     async checkCredentials(email: string, password: string): Promise<string> {
+        console.log(this.url);
+        
         try {
             // Make a request to the backend to check the credentials
             const response = await fetch(`${this.url}/login`, {
@@ -68,7 +72,7 @@ class BackendService {
         }
     }
 
-    async getUserData(email: string, password: string) {
+    async getUserData(email: string, password: string): Promise<IUser | undefined> {
         try {
             // Make a request to the backend to check the credentials
             const response = await fetch(`${this.url}/getUserData`, {
@@ -84,13 +88,63 @@ class BackendService {
 
             if (response.status === 200) {
                 // Return message
-                return response.userData;
+                console.log(response);
+                const userData = {
+                    firstName: response.data.first_name,
+                    lastName: response.data.last_name,
+                    email: response.data.email,
+                    password: response.data.password
+                }
+                return userData;
             } 
         
         }catch (error) {
             // Handle any errors that occur during the fetch or JSON parsing process
             console.error("An error occurred:", error);
+        }
     }
+
+    async updateUserData(email: string, password: string, value:string, type:string): Promise<string> {
+        try {
+            let data;
+            // change variables inside data object depending on what is being updated
+            if (type === "password") {
+                data = {
+                    currentEmail: email,
+                    currentPassword: password,
+                    newPassword: value
+
+                }
+            } else if (type === "email") {
+                data = {
+                    currentEmail: email,
+                    currentPassword: password,
+                    newEmail: value
+                }
+            }
+            
+            // Make a request to the backend to check the credentials
+            const response = await fetch(`${this.url}/updateUser`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({...data})
+            }).then(response => response.json());
+            console.log(response);
+            
+            if (response.status === 200) {
+                // Return message
+                return "success";
+            } else {                
+                // Return error message
+                return response.message;
+            }
+        } catch (error) {
+            // Handle any errors that occur during the fetch or JSON parsing process
+            console.error("An error occurred:", error);
+            return `error: ${error}`;
+        }
     }
 }
 export const backendService = new BackendService();

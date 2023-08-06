@@ -1,0 +1,63 @@
+.outerModalContainer{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.formContainer{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    width: 25%;
+    height: 30%;
+    border-radius: 50px;
+    padding: 5%;
+}
+
+.input{
+    width: 100%;
+    height: 15em;
+    border: none;
+    background-color: lightgray;
+    border-radius: 30px;
+    padding-left: 1em;
+    margin: 1.5em 0 2em; 
+}
+
+.label{
+    height: 3rem;
+    padding-left: 2em;
+    font-weight: bold;
+}
+
+.buttonContainer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.updateButton, .cancelButton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    width: 40%;
+    height: 3rem;
+    border: none;
+    background-color: lightgray;
+    border-radius: 30px;
+    margin-top: 2em;
+}
+
+.updateButton:hover, .cancelButton:hover{
+    cursor: pointer;
+    background-color: gray;
+}
+

@@ -2,7 +2,6 @@ import express from "express"
 import bodyParser from "body-parser"
 import cors from "cors"
 import { databaseService } from "./services/databaseService.js"
-import e from "express"
 
 const app = express()
 app.use(cors())
@@ -217,6 +216,8 @@ app.post('/getUserData', async (request, response) => {
  * @returns {string} - a message saying the user was updated or an error message
 */
 app.put('/updateUser', async (request, response) => {
+    console.log(request.body);
+
     //get updated user credentials from request body
     if (request.body.currentEmail && request.body.currentPassword) {
         let updatedUser = {

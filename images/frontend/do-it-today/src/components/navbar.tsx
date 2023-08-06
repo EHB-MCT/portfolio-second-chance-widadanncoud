@@ -31,6 +31,10 @@ function Navbar() {
                         window.location.assign("/user/login");
                     } else{
                         setIsLoggedIn(true);
+                        //redirect to home page if user is logged in and tries to access login or register page
+                        if (location === "/user/login" || location === "/user/register") {
+                            window.location.assign("/");
+                        }
                     }
                 })
             

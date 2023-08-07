@@ -1,5 +1,11 @@
 import { IUser } from "../types/IUser";
 
+interface ITask {
+    id: number;
+    description: string;
+    user_id: number;
+}
+
 class BackendService {
     url = process.env.BACKEND || 'http://localhost:3000';
 
@@ -146,6 +152,119 @@ class BackendService {
             return `error: ${error}`;
         }
     }
+    
+   async  getTasks(email: string, password: string): Promise<string[] | undefined> {
+        try {
+            // Make a request to the backend to check the credentials
+            const response = await fetch(`${this.url}/getTasks`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            }).then(response => response.json());
+
+            if (response.status === 200) {
+                // Return tasks array 
+                const tasks = response.tasks.map((task: ITask) => task.description)               
+                return tasks;
+            }
+
+        } catch (error) {
+            // Handle any errors that occur during the fetch or JSON parsing process
+            console.error("An error occurred:", error);
+        }
+    }
+
+    async addTask(email: string, password: string, task: string): Promise<string> {
+        try {
+            // Make a request to the backend to check the credentials
+            const response = await fetch(`${this.url}/createTask`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    newTask: task
+                })
+            }).then(response => response.json());
+
+            if (response.status === 200) {
+                // Return message
+                return "success";
+            } else {                
+                // Return error message
+                return response.message;
+            }
+        } catch (error) {
+            // Handle any errors that occur during the fetch or JSON parsing process
+            console.error("An error occurred:", error);
+            return `error: ${error}`;
+        }
+    }
+
+    async updateTask(email: string, password: string, task: string, newTask: string): Promise<string> {
+        try {
+            // Make a request to the backend to check the credentials
+            const response = await fetch(`${this.url}/updateTask`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    currentTask: task,
+                    newTask: newTask
+                })
+            }).then(response => response.json());
+
+            if (response.status === 200) {
+                // Return message
+                return "success";
+            } else {                
+                // Return error message
+                return response.message;
+            }
+        } catch (error) {
+            // Handle any errors that occur during the fetch or JSON parsing process
+            console.error("An error occurred:", error);
+            return `error: ${error}`;
+        }
+    }
+
+    async deleteTask(email: string, password: string, task: string): Promise<string> {
+        try {
+            // Make a request to the backend to check the credentials
+            const response = await fetch(`${this.url}/deleteTask`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    task: task
+                })
+            }).then(response => response.json());
+
+            if (response.status === 200) {
+                // Return message
+                return "success";
+            } else {                
+                // Return error message
+                return response.message;
+            }
+        } catch (error) {
+            // Handle any errors that occur during the fetch or JSON parsing process
+            console.error("An error occurred:", error);
+            return `error: ${error}`;
+        }
+    }
 }
 export const backendService = new BackendService();
-

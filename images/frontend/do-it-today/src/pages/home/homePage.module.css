@@ -1,0 +1,12 @@
+.homePageContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80vh;
+}
+
+.title{
+    font-size: 3rem;
+    font-weight: 700;;
+}
+

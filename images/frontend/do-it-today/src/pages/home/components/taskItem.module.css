@@ -1,0 +1,49 @@
+.taskItemContainer, .updateTaskForm{
+    display: flex;
+    flex-direction: row;
+    width: 25rem;
+    height: 3rem;
+    margin: 0.5em 0;
+    padding: 0.5em 1em;
+    border-radius: 25px;
+    background-color: white;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.taskItemActions{
+    display: inherit;
+}
+
+.editButton{
+    margin-right: 1em;
+    padding: 1em 1em;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.editButton:hover{
+    background-color: #e6e6e6;
+}
+
+.updateTaskInputField{
+    width: 60%;
+    height: 2rem;
+    border-radius: 15px;
+    border: none;
+    padding: 0.5em 1em;
+    margin-right: 1em;
+    background-color: lightgray;
+}
+
+.updateButton{
+    width: 20%;
+    height: 80%;
+    border-radius: 20px;
+    border: none;
+}
+
+.updateButton:hover{
+    background-color: #e6e6e6;
+}

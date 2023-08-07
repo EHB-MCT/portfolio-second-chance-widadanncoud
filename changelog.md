@@ -53,3 +53,13 @@
         - register page
         - home page
         - profile page
+
+## [0.0.7] - 07-08-2023
+
+### updated
+
+    - backend index file with all the new endpoints for tasks:
+        - get tasks endpoint
+        - create task endpoint
+        - update task endpoint
+        - delete task endpoint

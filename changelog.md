@@ -44,3 +44,12 @@
         - update task endpoint
         - delete task endpoint
 
+## [0.0.6] - 07-08-2023
+
+### added
+
+    - frontend website with:
+        - login page
+        - register page
+        - home page
+        - profile page
